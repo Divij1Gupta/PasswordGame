@@ -1,0 +1,210 @@
+import tkinter as tk
+from tkinter import messagebox
+d=0
+b=0
+#List of Conditions in the game
+Rule1 = "Your password must contain at least 8 characters."
+Rule2 = "Your password must contain at least one uppercase letter."
+Rule3 = "Your password must contain at least one lowercase letter."
+Rule4 = "Your password must contain at least one digit."
+Rule5 = "Your password must not contain any spaces."
+Rule6 = "Your password must contain a special character."
+Rule7 = "Your password must contain the name of a greek alphabet."
+Rule8 = "Your password must contain the solution to this mathematical
+expression 8÷2(2+2)"
+Rule9 = "Your password must contain the answer to this riddle: The poor have
+me; the rich need me. Eat me and you will die. What am I?"
+Rule10 = "Your password must include a month of the year."
+Rule11 = "Your Password must contain the number of conditions in the game so
+far minus the alternative solution for Rule No. 8."
+Rule12 = "Length of your password must be an odd number"
+Rule13 = "Roman Numerals in your password should add up to 45."
+Rule14 = "Your password must not contain the letter 'm'"
+Rule15 = "-.-. --- -. ..-. .. .-. -- / - .... . / .--. .- ... ... .-- --- .-.
+-.."
+special_characters = "!@#$%^&*()-+?_=,<>/\"\'"
+greek = ["alpha", "beta", "gamma"," delta", "epsilon", "zeta", "eta",
+"theta", "iota", "kappa", "lambda", "mu", "nu", "xi", "omicron", "pi", "rho",
+"sigma", "tau", "upsilon", "phi", "chi", "psi", "omega"]
+Month = ["january", "february", "march", "april", "may", "june", "july",
+"august", "september", "october", "november", "december"]
+class PasswordGame(tk.Tk):
+def __init__(self):
+super().__init__()
+#Front-end setup
+self.title("Password Game")
+self.geometry("800x400")
+self.configure(bg="#FFEBCD")
+self.rules = [Rule1, Rule2, Rule3, Rule4, Rule5, Rule6, Rule7, Rule8,
+Rule9, Rule10, Rule11, Rule12, Rule13, Rule14, Rule15]
+self.current_rule_index = 0
+self.current_password = ""
+self.d=0
+self.setup_ui()
+def setup_ui(self):
+#Front-end elements with functionality
+self.rule_label = tk.Label(self,
+text=self.rules[self.current_rule_index], bg="#FFEBCD", font=("Pacifico",12))
+self.rule_label.pack()
+self.password_entry = tk.Entry(self, width= 50, border=4)
+self.password_entry.pack()
+#Submit Button
+self.submit_button = tk.Button(self, text="Submit the Password",
+command=self.submit_password)
+self.submit_button.pack()
+# Help Button
+self.help_button = tk.Button(self, text="Click for Help",
+command=self.Help, bg="#D8BFD8")
+self.help_button.place(x=235, y=80)
+self.tutorial_button = tk.Button(self, text="Click for Tutorial",
+command = self.Tutorial, bg="#D8BFD8")
+self.tutorial_button.place(x=465, y=80)
+self.credits = tk.Message(self, text="Credits:\n-Divij Gupta\n-Ashaaz
+Ansari\n-The Password Game \n by Neal.fun",bg="#FFEBCD", font=("Times New
+Roman",11) )
+self.credits.place(x= 320, y=80)
+def submit_password(self):
+#Functionality during submission of Password
+password = self.password_entry.get()
+self.current_password = password
+self.check_password(password)
+def Tutorial(self):
+messagebox.showinfo("Tutorial","1. Enter characters on the Password
+Entry box\n2. Submit the password by clicking on the Submit Button.\n3. Click
+the Help Button for specialized instructions for each condition.")
+def Help(self):
+global b
+#List of String values to assist the player
+Help_list = ["Just enter 8 characters!",
+"Make the first letter of Your Password capital using
+'Caps Lock'",
+"Make the second letter of Your Password small without
+having 'Caps Lock'",
+"Add any digit to your Password",
+"Remove any spaces in Your Password by using
+'backspace'",
+"Use 'Shift + Any Number'",
+"Remember your Physics, Maths or Chemistry classes! Or
+put in the name for 3.14",
+"Solve the Equation by opening the brackets, and
+applying BODMAS",
+"Nothing is the answer!",
+"Enter your Birth Month",
+"The Current Rule is Rule No. 11",
+"The Length of your password is
+"+str(len(self.password_entry.get())),
+"Roman Numerals",
+"Remove all 'm' characters",
+""]
+messagebox.showwarning("Remember to Submit!", Help_list[b])
+def check_password(self, password):
+global d
+global b
+#Functions according to the conditions
+def R1(password):
+if(len(password) >= 8):
+return True
+return False
+def R2(password):
+if(any(char.isupper() for char in password)):
+return True
+return False
+def R3(password):
+if(any(char.islower() for char in password)):
+return True
+return False
+def R4(password):
+if(any(char.isdigit() for char in password)):
+return True
+return False
+def R5(password):
+if(' ' not in password):
+return True
+return False
+def R6(password):
+if(any(char in special_characters for char in password)):
+return True
+return False
+def R7(password):
+for i in greek:
+if i in password.lower():
+return True
+else:
+return False
+def R8(password):
+for i in password:
+if i== "1" or i=="16":
+return True
+else:
+return False
+def R9(password):
+if "nothing" in password.lower():
+return True
+else:
+return False
+def R10(password):
+for i in Month:
+if i in password.lower():
+return True
+else:
+return False
+def R11(password):
+if "10" in password.lower() or "5" in password.lower():
+return True
+else:
+return False
+def R12(password):
+if len(password)%2 == 1:
+return True
+return False
+def R13(password):
+Rom={"I":password.count("I")-
+(password.count("IV")+password.count("IX")),"IV":password.count("IV"),"IX":pa
+ssword.count("IX"),"V":password.count("V")-
+(password.count("IV")),"X":password.count("X")-
+(password.count("XL")+password.count("XC")),"XL":password.count("XL"),"L":pas
+sword.count("L")-
+(password.count("XL")),"XC":password.count("XC"),"C":password.count("C")-
+(password.count("CD")+password.count("CM")+password.count("XC")),"CD":passwor
+d.count("CD"),"CM":password.count("CM"),"D":password.count("D")-
+(password.count("CD")),"M":password.count("M")-(password.count("CM"))}
+num = [1,4,9,5,10,40,50,90,100,400,500,900,1000]
+c=0
+Sum_rom=0
+for i in Rom:
+Sum_rom+=Rom[i]*num[c]
+c+=1
+if(Sum_rom==45):
+return True
+else:
+return False
+def R14(password):
+if "m" in password:
+return False
+return True
+def R15(password):
+return True
+r=[R1(password),R2(password),R3(password),R4(password),R5(password),R
+6(password),
+R7(password),R8(password),R9(password),R10(password),R11(password),R12(passwo
+rd), R13(password),R14(password),R15(password)]
+#Iteration and Sequencing of rules through loops
+for i in range(len(self.rules)):
+b=i
+self.rule_label.config(text=self.rules[i])
+if(d==i):
+d+=1
+break
+elif(r[i]):
+continue
+else:
+messagebox.showerror("Error", "Incorrect! " + self.rules[i])
+break
+else:
+dummy= "Your Password is " + password
+messagebox.showinfo("Congratulations, You win!", dummy)
+self.destroy()
+# Default to true for additional rules
+if __name__ == "__main__":
+app = PasswordGame()
+app.mainloop()
